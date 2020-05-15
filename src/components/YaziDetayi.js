@@ -1,29 +1,52 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import YaziYorumlari from "./YaziYorumlari";
+
 
 const YaziDetayi = props => {
   const { id } = props.match.params;
   const [yaziDetayi, setYaziDetayi] = useState({});
+  const [yorumlar, setYorumlar] = useState([]);
+
+  const handleCommentSubmit = (event, yorum) => {
+    event.preventDefault();
+    axios.post(
+      `https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`,
+      yorum
+    )
+    .then((response) => {
+      setYorumlar([...yorumlar,response.data]);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
 
   useEffect(() => {
     axios
-      .get(`http://react-yazi-yorum.herokuapp.com/posts/${id}`)
-      .then((response) => {
-        setYaziDetayi(response.data)
-      })
-      .catch(error => {
+      .all([
+        axios.get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`),
+        axios.get(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`)
+      ])
+      .then(responses => {
+        setYaziDetayi(responses[0].data)
+        setYorumlar(responses[1].data)
+      }).catch(error => {
         console.log(error);
-      });
-  }, []);
+      })
 
+    
+  }, [id]);
   return (
-  <React.Fragment>
-  <h2 className="ui header">{yaziDetayi.title} </h2>
-  <p>{yaziDetayi.content}</p>
-  <p>{yaziDetayi.created_at}</p>
-
-  </React.Fragment>
-   )
+    <React.Fragment>
+      <h2 className="ui header">{yaziDetayi.title} </h2>
+      <p>{yaziDetayi.content}</p>
+      <p>{yaziDetayi.created_at}</p>
+      <YaziYorumlari yorumlar={yorumlar} handleSubmit={handleCommentSubmit}/>     
+    </React.Fragment>
+  );
 };
 
 export default YaziDetayi;
+
+
