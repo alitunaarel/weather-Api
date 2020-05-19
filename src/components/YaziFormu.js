@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import {api} from "../api"
 import { withRouter } from "react-router-dom";
 
 const YaziFormu = props => {
@@ -12,8 +12,8 @@ const YaziFormu = props => {
   const onFromSubmit = event => {
     event.preventDefault();
     setHata("");
-    axios
-      .post("https://react-yazi-yorum.herokuapp.com/posts", yazi)
+    api()
+      .post("/posts", yazi)
       .then(response => {
         props.history.push("/");
       })
