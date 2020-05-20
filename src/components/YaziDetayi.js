@@ -40,7 +40,6 @@ const YaziDetayi = props => {
         <Link className="ui blue button" to={`/post/${yaziDetayi.id}/edit`}>Duzenle</Link>
         <button className="ui red button">Sil</button>
       </div>
-
       <p>{yaziDetayi.content}</p>
       <YaziYorumlari yorumlar={yorumlar} handleSubmit={handleCommentSubmit} />
     </React.Fragment>

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import {api} from "../api"
+import React, { useState, useEffect } from "react";
+import { api } from "../api";
 import { withRouter } from "react-router-dom";
 
 const YaziFormu = props => {
-  const [yazi, setYazi] = useState({ title: "", content: "" });
+  const [yazi, setYazi] = useState({
+    title: "",
+    content: ""
+  });
   const [hata, setHata] = useState("");
 
   const onInputChange = event =>
@@ -12,15 +15,32 @@ const YaziFormu = props => {
   const onFromSubmit = event => {
     event.preventDefault();
     setHata("");
-    api()
-      .post("/posts", yazi)
-      .then(response => {
-        props.history.push("/");
-      })
-      .catch(error => {
-        setHata("baslik ve yazi icerigi alanalri zorunludur..");
-      });
+
+    if (props.yazi.title) {
+      api()
+        .put(`/posts/${props.match.params.id}`, yazi)
+        .then(response => {
+          console.log(response);
+          props.history.push(`/posts/${props.match.params.id}`);
+        })
+        .catch(error =>{
+          setHata("baslik icerigi zorunlu");
+        })
+    } else {
+      api()
+        .post("/posts", yazi)
+        .then(response => {
+          props.history.push("/");
+        })
+        .catch(error => {
+          setHata("baslik ve yazi icerigi alanalri zorunludur..");
+        });
+    }
   };
+
+  useEffect(() => {
+    if (props.yazi.title && props.yazi.content) setYazi(props.yazi);
+  }, [props.yazi]);
 
   return (
     <React.Fragment>
@@ -60,8 +80,3 @@ const YaziFormu = props => {
 };
 
 export default withRouter(YaziFormu);
-
-// Degerli Hocam, video herzaman ki gibi harika olmus emeginize saglik,
-// Sesli dusundugunuz kisimalri birakmaniz cok yararli oluyor kanaatimce,
-//  tesekkur ederim. Musadenizle bir soru sormak istiyorum,React redux kullanip bir state
-//  manegement
