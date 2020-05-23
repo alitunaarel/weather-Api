@@ -8,6 +8,7 @@ const YorumListesi = (props) => {
         return (
           <div className="ui relaxed list" key={yorum.id}>
             <div className="item">
+            
               {/* <img
                 className="ui avatar image"
                 src="/images/avatar/small/daniel.jpg"
@@ -15,6 +16,7 @@ const YorumListesi = (props) => {
               <div className="content">
                 <span className="header">{yorum.display_name}</span>
                 <div className="description">{yorum.body}</div>
+                
               </div>
             </div>
           </div>

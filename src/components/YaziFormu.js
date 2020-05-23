@@ -12,7 +12,7 @@ const YaziFormu = props => {
   const onInputChange = event =>
     setYazi({ ...yazi, [event.target.name]: event.target.value });
 
-  const onFromSubmit = event => {
+  const onFormSubmit = event => {
     event.preventDefault();
     setHata("");
 
@@ -23,9 +23,9 @@ const YaziFormu = props => {
           console.log(response);
           props.history.push(`/posts/${props.match.params.id}`);
         })
-        .catch(error =>{
-          setHata("baslik icerigi zorunlu");
-        })
+        .catch(error => {
+          setHata("Başlık ve yazı içeriği alanları zorunludur.");
+        });
     } else {
       api()
         .post("/posts", yazi)
@@ -33,7 +33,7 @@ const YaziFormu = props => {
           props.history.push("/");
         })
         .catch(error => {
-          setHata("baslik ve yazi icerigi alanalri zorunludur..");
+          setHata("Başlık ve yazı içeriği alanları zorunludur.");
         });
     }
   };
@@ -46,34 +46,34 @@ const YaziFormu = props => {
     <React.Fragment>
       {hata && (
         <div className="ui error message">
-          <div className="header">Hata </div>
+          <div className="header">Hata</div>
           <p>{hata}</p>
         </div>
       )}
-
       <div className="ui form">
         <div className="field">
-          <label>Yazi Basligi</label>
+          <label>Yazı Başlığı</label>
+
           <input
-            onChange={onInputChange}
             value={yazi.title}
             type="text"
             name="title"
+            onChange={onInputChange}
           />
         </div>
         <div className="field">
-          <label>Yazi icerigi </label>
+          <label>Yazı İçeriği</label>
           <textarea
-            onChange={onInputChange}
             value={yazi.content}
-            rows="2"
+            rows="3"
             name="content"
+            onChange={onInputChange}
           ></textarea>
         </div>
-        <button className="ui primary button" onClick={onFromSubmit}>
-          Gonder
+        <button className="ui primary button" onClick={onFormSubmit}>
+          Gönder
         </button>
-        <button className="ui button">Iptal Et</button>
+        <button className="ui button">İptal Et</button>
       </div>
     </React.Fragment>
   );

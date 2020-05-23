@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, } from "react-router-dom";
 import YaziListesi from "./components/YaziListesi";
 import YaziDetayi from "./components/YaziDetayi";
 import YaziEkle from "./components/YaziEkle";
@@ -14,7 +14,9 @@ function App() {
           <Route path="/" exact component={YaziListesi} />          
           <Route path="/posts/:id" exact component={YaziDetayi} />          
           <Route path="/yaziekle" component={YaziEkle} />          
-          <Route path="/post/:id/edit" component={YaziDuzenle} />          
+          <Route path="/post/:id/edit" component={YaziDuzenle} />  
+       
+
         </div>
       </div>
     </Router>
