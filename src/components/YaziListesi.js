@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {api} from "../api"
 import { Link } from "react-router-dom";
+import moment from 'moment'
 
 const YaziListesi = props => {
   const [yaziListesi, setYaziListesi] = useState([]);
@@ -23,7 +24,7 @@ const YaziListesi = props => {
               <Link to={`posts/${yazi.id}`} className="header">
                 {yazi.title}
               </Link>
-              <div className="description">{yazi.created_at}</div>
+              <div className="description">{moment(yazi.created_at).format('LLLL')}</div>
             </div>
           </div>
         );

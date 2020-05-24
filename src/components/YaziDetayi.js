@@ -4,6 +4,7 @@ import { api } from "../api";
 import YaziYorumlari from "./YaziYorumlari";
 import {Link} from "react-router-dom"
 import SilModal from "./SilModal";
+import moment from "moment";
 
 const YaziDetayi = props => {
   const { id } = props.match.params;
@@ -36,7 +37,7 @@ const YaziDetayi = props => {
   return (
     <React.Fragment>
       <h2 className="ui header">{yaziDetayi.title} </h2>
-      <p>{yaziDetayi.created_at}</p>
+      <p>{moment(yaziDetayi.created_at).format('LLLL')}</p>
       <div className="ui buttons">
         <Link className="ui blue button" to={`/post/${yaziDetayi.id}/edit`}>Duzenle</Link>
         {/* <button className="ui red button">Sil</button> */}
